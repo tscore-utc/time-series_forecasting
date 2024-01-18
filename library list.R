@@ -1,4 +1,4 @@
-# All the libraries I may need
+# All the libraries you may need to use my forecasting functions
 library(data.table)
 library(dplyr)
 library(forecast)
