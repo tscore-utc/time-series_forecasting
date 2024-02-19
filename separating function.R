@@ -18,7 +18,7 @@ my.dt.fun <- function(myData){
   newData <- newData[complete.cases(newData), ]
   
   # I also chose to drop Honolulu (row 15) and San Juan (row 12)
-  # newData <- newData[-c(12, 15), ]
+  newData <- newData[-c(12, 15), ]
   
   # Transpose
   tData <- t(newData)
