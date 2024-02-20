@@ -1,8 +1,6 @@
-# All the libraries you may need to forecast and plot
+# All the libraries you may need to forecast and plot, etc
 
-# To import an excel spreadsheet, e.g., the monthly adjusted database from NTD
 library(readxl)
-
 library(data.table)
 library(dplyr)
 library(forecast)
