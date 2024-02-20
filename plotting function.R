@@ -1,4 +1,10 @@
 my.plot.fun <- function(forecastList){
+  # This function takes the output of the forecasting function and creates plots which contain all 7 forecasts on one figure. The agency name is the legend title and the y-axis is fitted to the min and max of the data. The function saves the plots as .png pictures to your files.
+  
+  # library(ggplot2)
+  # library(gridExtra)
+  # library(lemon)
+  # library(zoo)
   
   # Initialize an empty list to store the plots for each list item
   all_plots <- vector("list", length = length(forecastList))
@@ -7,16 +13,16 @@ my.plot.fun <- function(forecastList){
   for (i in 1:length(forecastList)) {
     
     # Find the common y-axis range based on the minimum and maximum of time_series_test
-    ymin <- min(forecastList[[i]]$time_series_train * 0.5) # post, train * 0.5 or pre, train
-    ymax <- max(forecastList[[i]]$time_series_test * 1.5) # post, test * 1.5 or pre, train
+    ymin <- min(forecastList[[i]]$time_series_train * 0.5) # post = train * 0.5 or pre = train
+    ymax <- max(forecastList[[i]]$time_series_test * 1.5) # post = test * 1.5 or pre = train
     
-    # Set a smaller range for x so the pre-COVID plots are legible
+    # Set a smaller range for x so the pre-COVID and full series plots are legible
     # xmin <- c(2010) #pre
     # xmax <- c(2020+2/12) #pre
-    xmin <- c(2020) #full
-    xmax <- c(2023+8/12) #full
+    xmin <- c(2020) #full and post
+    xmax <- c(2024) #full and post
     
-    # Extract the forecasts and testing data from the current list
+    # Extract the forecasts and testing data from the input
     fets <- forecastList[[i]]$ets.forecast
     farima <- forecastList[[i]]$arima.forecast
     fstlets <- forecastList[[i]]$stlets.forecast
@@ -26,7 +32,7 @@ my.plot.fun <- function(forecastList){
     fhybrid <- forecastList[[i]]$hybrid.forecast
     time_series_test <- forecastList[[i]]$time_series_test
     
-    # Create and display the plots for each forecast type (remove xlim = c(xmin, xmax), for post)
+    # Create and display the plots for each forecast type
     plot_ets <- autoplot(fets, main = "ETS", series = "Forecast", xlab = "Date", ylab = "Ridership (UPT)") +
       autolayer(fets$mean,series = "Forecast") +
       autolayer(time_series_test, series = "Testing Data") +
@@ -86,7 +92,7 @@ my.plot.fun <- function(forecastList){
     all_plots[[i]] <- combined_plots
     
     # Save the combined plot as an image
-    output_filename <- file.path("/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/full series plots right", paste0("forecast_plot_", names(forecastList[i]), ".png"))
+    output_filename <- file.path("/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/full series Dec", paste0("forecast_plot_", names(forecastList[i]), ".png"))
     ggsave(output_filename, combined_plots, width = 10)
     
   }
