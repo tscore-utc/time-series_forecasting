@@ -28,12 +28,12 @@ my.forecast.fun <- function(dtList) {
     rides_ts <- ts(trips, start = c(year(min(dates)), month(min(dates))), freq = 12)
     
     # Subset the data into train and test (yyyy, mm)
-    train_start_date <- c(2020, 4) # comment out for full forecast
+    train_start_date <- c(2002, 1) # full = (2002, 1), post = (2020, 4)
     train_end_date <- c(2022, 12)
     test_start_date <- c(2023, 1)
     
     # Create ts objects for training and testing data using the window function
-    rides_ts_train <- window(rides_ts, start = train_start_date, end = train_end_date) # remove start for full forecast
+    rides_ts_train <- window(rides_ts, start = train_start_date, end = train_end_date)
     rides_ts_test <- window(rides_ts, start = test_start_date)
     
     # Create a list for each time series object, including the time series object and time series models
@@ -93,7 +93,7 @@ my.forecast.fun <- function(dtList) {
   }
   
   # Save the accuracy results to my files
-  write_xlsx(accuracy_df, path = "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/data/accuracy_results_postforecastDec.xlsx") # replace my path with yours
+  write_xlsx(accuracy_df, path = "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/data/accuracy_results_fullForecastDec.xlsx") # replace my path with yours
   
   # Output models
   return(tsList)
