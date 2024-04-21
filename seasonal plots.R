@@ -20,8 +20,10 @@ my.seasonal.fun <- function(forecastList){
     # Capture the current set of plots
     all_plots[[i]] <- list(plots, plots2)
     
-    output_filename <- file.path("/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/seasonal plots", paste0("seasonal_plot_", names(forecastList[i]), ".png"))
-    ggsave(output_filename, plots2, width = 5)
+    output_filename1 <- file.path("/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/Dec polar plots", paste0("seasonal_plot_", names(forecastList[i]), ".png"))
+    ggsave(output_filename1, plots2, width = 5)
+    output_filename2 <- file.path("/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/Dec seasonal plots", paste0("seasonal_plot_", names(forecastList[i]), ".png"))
+    ggsave(output_filename2, plots, width = 5)
     
   }
   
