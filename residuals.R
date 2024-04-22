@@ -11,19 +11,19 @@ my.res.fun <- function(forecastList){
   for (i in 1:length(forecastList)) {
     dataInput <- forecastList[[i]]
     
-    # Find the residuals for each forecast
-    ets.residuals <- checkresiduals(dataInput$ets.forecast)
-    arima.residuals <- checkresiduals(dataInput$arima.forecast)
-    stlets.residuals <- checkresiduals(dataInput$stlets.forecast)
-    stlarima.residuals <- checkresiduals(dataInput$stlarima.forecast)
-    tbats.residuals <- checkresiduals(dataInput$tbats.forecast)
-    nnet.residuals <- checkresiduals(dataInput$nnet.forecast)
+    # Find the residuals for each forecast, would use lag = 24 but for post results the hybrid returns NA
+    ets.residuals <- checkresiduals(dataInput$ets.forecast, lag = 12)
+    arima.residuals <- checkresiduals(dataInput$arima.forecast, lag = 12)
+    stlets.residuals <- checkresiduals(dataInput$stlets.forecast, lag = 12)
+    stlarima.residuals <- checkresiduals(dataInput$stlarima.forecast, lag = 12)
+    tbats.residuals <- checkresiduals(dataInput$tbats.forecast, lag = 12)
+    nnet.residuals <- checkresiduals(dataInput$nnet.forecast, lag = 12)
     
-    # Find residuals for hybrid separately because checkresiduals() didn't work
+    # Find residuals for hybrid separately because checkresiduals() won't work
     hybrid.residuals <- residuals(dataInput$hybrid.forecast)
    
     # Perform the Ljung-Box test on the hybrid and store the p-values
-    lboxHybrid <- Box.test(hybrid.residuals, lag = 10, type = "Ljung-Box")
+    lboxHybrid <- Box.test(hybrid.residuals, lag = 12, type = "Ljung-Box")
     pValueHybrid <- lboxHybrid$p.value
     
     # Store residuals
@@ -101,7 +101,9 @@ my.res.fun <- function(forecastList){
   # Close the sink to restore normal output
   sink()
   
-  write_xlsx(pValuesList, path = "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/data/zzpost_p-values.xlsx")
+  pValues <- do.call(rbind, pValuesList)
+  
+  write_xlsx(list(pValues), path = "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/data/preRes.xlsx")
   
   return(list(residuals = resList, pValues = pValuesList))
 }
