@@ -54,7 +54,7 @@ my.res.fun <- function(forecastList){
     names(resList)[i] <- names(forecastList)[i]
     names(pValuesList)[i] <- names(forecastList)[i]
     
-    outputDir <- "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/post residuals"
+    outputDir <- "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/pre residuals"
     
     # Save residuals charts as image files
     jpeg(file.path(outputDir, paste0(names(forecastList)[i], "_residuals_ETS.jpg")))
