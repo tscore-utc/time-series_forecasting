@@ -1,6 +1,4 @@
 my.res.fun <- function(forecastList){
-  # This function performs the residual diagnostics of your forecasts using the Ljung-Box test. It produces: the time plots, the ACF plots of residuals, and a histogram of the residuals with an overlaid normal distribution for comparison. The plots will be saved to your files in .jpg format; for all but the hybrid models, the three plots are all in a single picture. The function also records the p-values of the residuals; a higher p-value (less significant) indicates a lack of pattern in the residuals (i.e., the residuals are white noise), meaning the models captured all information in the data. A significant p-value means some information remains in the residuals; this is not an indication that the model will produce poor forecasts, but rather that it could be improved. Additionally, models whose residuals are white noise may also be able to be improved.
-  
   
   # Initialize lists for the residuals and p-values
   resList <- list()
@@ -9,7 +7,7 @@ my.res.fun <- function(forecastList){
   # Open a sink to capture output
   sink("/dev/null")
   
-  # Loop through my forecast list (output of forecasting function) and pull out residuals for each forecast
+  # Loop through my forecast list and pull out residuals for each forecast
   for (i in 1:length(forecastList)) {
     dataInput <- forecastList[[i]]
     
@@ -21,7 +19,7 @@ my.res.fun <- function(forecastList){
     tbats.residuals <- checkresiduals(dataInput$tbats.forecast)
     nnet.residuals <- checkresiduals(dataInput$nnet.forecast)
     
-    # Find residuals for hybrid separately because checkresiduals() won't work
+    # Find residuals for hybrid separately because checkresiduals() didn't work
     hybrid.residuals <- residuals(dataInput$hybrid.forecast)
    
     # Perform the Ljung-Box test on the hybrid and store the p-values
@@ -56,7 +54,6 @@ my.res.fun <- function(forecastList){
     names(resList)[i] <- names(forecastList)[i]
     names(pValuesList)[i] <- names(forecastList)[i]
     
-    # Set the path in your files where you want to save the residuals to
     outputDir <- "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/plots/post residuals"
     
     # Save residuals charts as image files
@@ -104,9 +101,7 @@ my.res.fun <- function(forecastList){
   # Close the sink to restore normal output
   sink()
   
-  # Save excel with p-values to your files
-  write_xlsx(pValuesList, path = "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/data/postRes_dec.xlsx")
+  write_xlsx(pValuesList, path = "/Users/ashleymorgan/Documents/previous research/forecasting project/major revision/data/zzpost_p-values.xlsx")
   
-  # Output the residuals to your environment
   return(list(residuals = resList, pValues = pValuesList))
 }
